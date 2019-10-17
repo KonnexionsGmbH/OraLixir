@@ -2,7 +2,7 @@ defmodule OraLixirTest do
   use ExUnit.Case
   # doctest OraLixir
 
-  test "greets the world" do
-    assert OraLixir.hello() == :world
+  test "connect to oracle" do
+    assert OraLixir.start_link([]) == :world
   end
 end
