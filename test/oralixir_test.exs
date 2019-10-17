@@ -1,6 +1,6 @@
 defmodule OraLixirTest do
   use ExUnit.Case
-  doctest Oracle
+  # doctest OraLixir
 
   test "greets the world" do
     assert OraLixir.hello() == :world
