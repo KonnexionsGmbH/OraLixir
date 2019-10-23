@@ -1,6 +1,6 @@
-# Oracle
+# OraLixir
 
-**TODO: Add description**
+An [ecto](https://github.com/elixir-ecto/ecto) adapter for Oracle using [oranif](https://github.com/c-bik/oranif/).
 
 ## Installation
 
@@ -8,9 +8,9 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `oracle` to your list of dependencies in `mix.exs`:
 
 ```elixir
-def deps do
+defp deps do
   [
-    {:oracle, "~> 0.1.0"}
+    {:oralixir, git: "https://github.com/c-bik/OraLixir", tag: "0.1.0"}}
   ]
 end
 ```
