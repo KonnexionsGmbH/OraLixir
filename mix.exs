@@ -22,7 +22,7 @@ defmodule OraLixir.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.0"},
-      {:oranif, git: "https://github.com/c-bik/oranif.git", tag: "0.2.2"}
+      {:oranif, git: "https://github.com/c-bik/oranif.git"}
     ]
   end
 end
