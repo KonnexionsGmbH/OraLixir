@@ -8,7 +8,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `oracle` to your list of dependencies in `mix.exs`:
 
 ```elixir
-defp deps do
+def deps do
   [
     {:oralixir, git: "https://github.com/c-bik/OraLixir"}}
   ]
