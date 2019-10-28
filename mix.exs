@@ -11,14 +11,12 @@ defmodule OraLixir.MixProject do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   def deps do
     [
       {:ecto_sql, "~> 3.0"},
