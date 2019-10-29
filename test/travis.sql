@@ -22,7 +22,7 @@ SET SHOWMODE OFF
 DEFINE spool_file = &&logfile_dir.hr_main.log
 SPOOL &spool_file
 
-CREATE USER scott IDENTIFIED BY regit;
+CREATE USER scott IDENTIFIED BY tiger;
 
 GRANT ALTER SYSTEM TO scott;
 GRANT CREATE SESSION TO scott;
