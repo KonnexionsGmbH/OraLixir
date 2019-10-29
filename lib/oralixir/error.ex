@@ -1,4 +1,4 @@
 defmodule OraLixir.Error do
 	@moduledoc false
-	defexception [:message]
+	defexception [:summary, :details]
 end
