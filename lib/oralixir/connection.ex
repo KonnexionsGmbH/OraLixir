@@ -85,21 +85,45 @@ defmodule OraLixir.Connection do
 	def handle_deallocate(_query, _cursor, _opts, state) do
 	  {:ok, :handle_deallocate, state}
 	end
+	
+	@impl true
+	def handle_prepare(
+	  %OraLixir.Query{query_str: queryStr} = query, _opts,
+	  %OraLixir.Connection{conn: conn, oranifNode: slave} = state
+	) do
+	  case oranif(slave, :conn_prepareStmt, [conn, false, queryStr, <<>>]) do
+		statement when is_reference(statement) ->
+		  info = oranif(slave, :stmt_getInfo, [statement])
+		  query = %{query | statement: statement, info: info}
+		  {:ok, query, state}
+      {:error, error} -> {:error, oranif_error(error), state}
+	  end
+	end
   
 	@impl true
+	def handle_execute(
+	  %OraLixir.Query{statement: statement} = query, _params, _opts,
+	  %OraLixir.Connection{oranifNode: slave} = state
+	) when is_reference(statement)
+	do
+	  case oranif(slave, :stmt_execute, [statement, []]) do
+    numberOfColumns when is_integer(numberOfColumns) ->
+      execute_query(numberOfColumns, query, state)        
+    {:error, error} -> {:error, oranif_error(error), state}
+	  end
+	end
+
+	@impl true
 	def handle_declare(
-	  %OraLixir.Query{statement: statement} = query, _params, _opts, %OraLixir.Connection{oranifNode: slave} = state
+    %OraLixir.Query{statement: statement} = query,
+    _params, _opts,
+    %OraLixir.Connection{oranifNode: slave} = state
 	) do
 	  case oranif(slave, :stmt_execute, [statement, []]) do
 		numberOfColumns when is_integer(numberOfColumns) ->
 		  query = %{query | numCols: numberOfColumns}
 		  {:ok, query, statement, state}
-		error ->
-		  {
-			:error,
-			%OraLixir.Error{message: "error when executing query: #{error}"},
-			state
-		  }
+      {:error, error} -> {:error, oranif_error(error), state}
 	  end
 	end
   
@@ -112,57 +136,7 @@ defmodule OraLixir.Connection do
 			{:cont, fetch_row(numberOfColumns, slave, statement, []), state}
 		%{found: false} ->
 			{:halt, :halt, state}
-		error ->
-		  {
-			:error,
-			%OraLixir.Error{message: "error when executing query: #{error}"},
-			state
-		  }
-	  end
-	end
-  
-	@impl true
-	def handle_execute(
-	  %OraLixir.Query{statement: statement} = query, _params, _opts,
-	  %OraLixir.Connection{oranifNode: slave} = state
-	) when is_reference(statement)
-	do
-	  case oranif(slave, :stmt_execute, [statement, []]) do
-		numberOfColumns when is_integer(numberOfColumns) ->
-		  columns = for idx <- 1..numberOfColumns do
-			case oranif(slave, :stmt_getQueryInfo, [statement, idx]) do
-			  col when is_map(col) -> col
-			  error ->
-				raise error
-			end          
-		  end
-		  rows = fetch_all(slave, statement, numberOfColumns)
-		  result = %OraLixir.Result{columns: columns, rows: rows}
-		  {:ok, %{query | numCols: numberOfColumns}, result, state}
-		error ->
-		  {
-			:error,
-			%OraLixir.Error{message: "error when executing query: #{error}"},
-			state
-		  }
-	  end
-	end
-	
-	@impl true
-	def handle_prepare(
-	  %OraLixir.Query{query_str: queryStr} = query, _opts,
-	  %OraLixir.Connection{conn: conn, oranifNode: slave} = state
-	) do
-	  case oranif(slave, :conn_prepareStmt, [conn, false, queryStr, <<>>]) do
-		statement when is_reference(statement) ->
-		  query = %{query | statement: statement}
-		  {:ok, query, state}
-		error ->
-		  {
-			:error,
-			%OraLixir.Error{message: "error when preparing query: #{error}"},
-			state
-		  }
+      {:error, error} -> {:error, oranif_error(error), state}
 	  end
 	end
   
@@ -259,4 +233,32 @@ defmodule OraLixir.Connection do
 	  fetch_row(colIdx - 1, slave, statement, [value | row])
 	end
   
+  defp execute_query(
+    numberOfColumns,
+    %OraLixir.Query{statement: statement, info: %{:isQuery => true}} = query,
+    %OraLixir.Connection{oranifNode: slave} = state
+  ) when numberOfColumns > 0 do
+    columns = for idx <- 1..numberOfColumns do
+			case oranif(slave, :stmt_getQueryInfo, [statement, idx]) do
+      col when is_map(col) -> col
+      error -> raise error
+			end
+    end
+    rows = fetch_all(slave, statement, numberOfColumns)
+    result = %OraLixir.Result{columns: columns, rows: rows}
+    {:ok, %{query | numCols: numberOfColumns}, result, state}
+  end
+
+  defp execute_query(
+    0,
+    %OraLixir.Query{info: %{:isQuery => false}} = query,
+    state
+  ) do
+    {:ok, %{query | numCols: 0}, :ok, state}
+  end
+
+  defp oranif_error(%{:reason => %{:message => message}} = error) do
+    %OraLixir.Error{summary: message, details: error}
+  end
+
   end
