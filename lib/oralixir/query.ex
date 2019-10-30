@@ -8,6 +8,7 @@ defmodule OraLixir.Query do
     * `:query_str` - The sql query string;
     * `:num_cols` - The number of columns returned by the query;
     * `:statement` - The prepared statement
+    * `:info` - Meta information about the statement
   
   ## Named and Unnamed Queries (TBD)
 
@@ -20,7 +21,8 @@ defmodule OraLixir.Query do
   defstruct [
     :query_str,
     :statement,
-    :numCols
+    :numCols,
+    :info
   ]
 
   defimpl DBConnection.Query do
