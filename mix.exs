@@ -17,10 +17,14 @@ defmodule OraLixir.MixProject do
     ]
   end
 
-  def deps do
+  defp deps do
     [
       {:ecto_sql, "~> 3.0"},
-      {:oranif, git: "https://github.com/c-bik/oranif.git"}
+      {
+        :oranif,
+        git: "https://github.com/c-bik/oranif.git",
+        tag: "cruz-elixir-comments"
+      }
     ]
   end
 end
