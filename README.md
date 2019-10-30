@@ -9,7 +9,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `oracle` to your list of dependencies in `mix.exs`:
 
 ```elixir
-def deps do
+defp deps do
   [
     {:oralixir, git: "https://github.com/c-bik/OraLixir"}}
   ]
@@ -22,7 +22,7 @@ be found at [https://hexdocs.pm/oralixir](https://hexdocs.pm/oralixir).
 
 ## Examples
 
-  Start connection using the default configuration (UNIX domain socket):
+Start connection using the default configuration (UNIX domain socket):
 ```elixir
 iex> {:ok, pid} = OraLixir.start_link([])
 {:ok, #PID<0.69.0>}
