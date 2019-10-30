@@ -23,7 +23,7 @@ defmodule OraLixir.MixProject do
       {
         :oranif,
         git: "https://github.com/c-bik/oranif.git",
-        tag: "cruz-elixir-comments"
+        tag: "master"
       }
     ]
   end
