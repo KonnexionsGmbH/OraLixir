@@ -1,4 +1,4 @@
-# Oracle
+# OraLixir
 [![Build Status](https://travis-ci.org/c-bik/OraLixir.svg?branch=exunits)](https://travis-ci.org/c-bik/OraLixir)
 
 An [ecto](https://github.com/elixir-ecto/ecto) adapter for Oracle using [oranif](https://github.com/c-bik/oranif/).

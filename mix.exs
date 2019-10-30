@@ -17,7 +17,7 @@ defmodule OraLixir.MixProject do
     ]
   end
 
-  def deps do
+  defp deps do
     [
       {:ecto_sql, "~> 3.0"},
       {
