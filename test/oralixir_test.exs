@@ -1,10 +1,9 @@
 defmodule OraLixirTest do
   use ExUnit.Case
   #doctest OraLixir
-  @connect_opts [password: "tiger"]
 
   test "select dual" do    
-    {:ok, pid} = OraLixir.start_link(@connect_opts)
+    {:ok, pid} = OraLixir.start_link([])
     assert is_pid(pid) == true
     queryStr = "SELECT 'some string' as col_string, 1 as col_number FROM DUAL"
     {
@@ -25,7 +24,7 @@ defmodule OraLixirTest do
   end
 
   test "drop create insert update select truncate" do
-    {:ok, pid} = OraLixir.start_link(@connect_opts)
+    {:ok, pid} = OraLixir.start_link([])
     assert is_pid(pid) == true
     dropSql = "DROP TABLE OraLixir_test"
     case OraLixir.prepare_execute(pid, "drop", dropSql, [], []) do
