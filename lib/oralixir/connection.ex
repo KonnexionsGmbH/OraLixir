@@ -258,7 +258,7 @@ defmodule OraLixir.Connection do
   end
 
   defp oranif_error(%{:reason => %{:message => message}} = error) do
-    %OraLixir.Error{summary: message, details: error}
+    %OraLixir.Error{message: message, details: error}
   end
 
   end
