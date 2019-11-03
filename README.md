@@ -11,7 +11,7 @@ by adding `oracle` to your list of dependencies in `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:oralixir, git: "https://github.com/c-bik/OraLixir"}}
+    {:oralixir, git: "https://github.com/c-bik/OraLixir"}
   ]
 end
 ```
