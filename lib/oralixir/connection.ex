@@ -169,7 +169,7 @@ defmodule OraLixir.Connection do
   
 	defp create_context_connection(ora, opts) do
 	  username = Keyword.get(opts, :username, "scott")
-	  password = Keyword.get(opts, :password, "regit")
+	  password = Keyword.get(opts, :password, "tiger")
   
 	  connectString = case Keyword.fetch(opts, :connectString) do
 		{:ok, connStr} -> connStr
@@ -258,7 +258,7 @@ defmodule OraLixir.Connection do
   end
 
   defp oranif_error(%{:reason => %{:message => message}} = error) do
-    %OraLixir.Error{summary: message, details: error}
+    %OraLixir.Error{message: message, details: error}
   end
 
   end
