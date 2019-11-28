@@ -9,7 +9,7 @@ defmodule OraLixir.Query do
     * `:num_cols` - The number of columns returned by the query;
     * `:statement` - The prepared statement
     * `:info` - Meta information about the statement
-  
+
   ## Named and Unnamed Queries (TBD)
 
   Named queries are identified by the non-empty value in `:name` field
@@ -19,6 +19,7 @@ defmodule OraLixir.Query do
   """
 
   defstruct [
+    :name,
     :query_str,
     :statement,
     :numCols,
@@ -31,5 +32,4 @@ defmodule OraLixir.Query do
     def encode(_query, params, _opts), do: params
     def decode(_query, result, _opts), do: result
   end
-
 end

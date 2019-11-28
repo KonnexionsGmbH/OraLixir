@@ -193,28 +193,23 @@ defmodule OraLixir do
     )
   end
 
-end
+  @impl true
+  def connect(opts) do
+    OraLixir.start_link(opts)
+  end
 
-# defmodule OraLixir.EctoAdapter do
-#   @moduledoc false
-# 
-#   use Ecto.Adapters.SQL,
-#     driver: :OraLixir,
-#     migration_lock: "FOR UPDATE"
-# end
-# 
-# defmodule OraLixir.EctoAdapter.Connection do
-#   @moduledoc false
-# 
-#   @behaviour Ecto.Adapters.SQL.Connection
-# 
-#   @impl true
-#   def child_spec(opts) do
-#     OraLixir.child_spec(opts)
-#   end
-# 
-#   @impl true
-#   def prepare_execute(conn, name, sql, params, opts) do
-#     OraLixir.prepare_execute(conn, name, sql, params, opts)
-#   end
-# end
+  @impl true
+  def checkout(s) do
+    :io.format("~p~n", [s])
+    {:ok, s}
+#    case query(s, 'SESSION') do
+#      {:ok, _} -> {:ok, s}
+#      {:error, err} ->  {:disconnect, error!(err), s}
+#    end
+  end
+
+  @impl true
+  def ping(s) do
+    {:ok, s}
+  end
+end
