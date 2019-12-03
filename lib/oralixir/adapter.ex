@@ -7,23 +7,23 @@ defmodule Ecto.Adapters.OraLixir do
   @behaviour Ecto.Adapter.Structure
 
   @impl true
-  def storage_up(_opts), do: err()
+  def storage_up(_opts), do: err(__ENV__.function)
 
   @impl true
-  def storage_down(_opts), do: err()
+  def storage_down(_opts), do: err(__ENV__.function)
 
   @impl true
-  def structure_dump(_default, _config), do: err()
+  def structure_dump(_default, _config), do: err(__ENV__.function)
 
   @impl true
-  def structure_load(_default, _config), do: err()
+  def structure_load(_default, _config), do: err(__ENV__.function)
 
   @impl true
   def supports_ddl_transaction? do
     false
   end
 
-  defp err, do: {:error, false}
+  defp err({op, _}), do: {:error, 'operation #{op} not supported by OraLixir'}
 
 end
 
