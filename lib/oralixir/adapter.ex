@@ -1,4 +1,4 @@
-defmodule Ecto.Adapters.OraLixir do
+defmodule OraLixir.EctoAdapter do
   @moduledoc false
 
   use Ecto.Adapters.SQL, driver: OraLixir, migration_lock: nil
@@ -27,7 +27,7 @@ defmodule Ecto.Adapters.OraLixir do
 
 end
 
-defmodule Ecto.Adapters.OraLixir.Connection do
+defmodule OraLixir.EctoAdapter.Connection do
   @moduledoc false
 
   @behaviour Ecto.Adapters.SQL.Connection

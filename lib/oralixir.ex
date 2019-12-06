@@ -193,23 +193,20 @@ defmodule OraLixir do
     )
   end
 
-  @impl true
-  def connect(opts) do
-    OraLixir.start_link(opts)
-  end
+  defdelegate checkin(state), to: OraLixir.Connection
+  defdelegate checkout(state), to: OraLixir.Connection
+  defdelegate connect(opts), to: OraLixir.Connection
+  defdelegate disconnect(err, state), to: OraLixir.Connection
+  defdelegate handle_begin(opts, state), to: OraLixir.Connection
+  defdelegate handle_close(query, opts, state), to: OraLixir.Connection
+  defdelegate handle_commit(opts, state), to: OraLixir.Connection
+  defdelegate handle_deallocate(query, cursor, opts, state), to: OraLixir.Connection
+  defdelegate handle_declare(query, params, opts, state), to: OraLixir.Connection
+  defdelegate handle_execute(query, params, opts, state), to: OraLixir.Connection
+  defdelegate handle_fetch(query, cursor, opts, state), to: OraLixir.Connection
+  defdelegate handle_prepare(query, opts, state), to: OraLixir.Connection
+  defdelegate handle_rollback(opts, state), to: OraLixir.Connection
+  defdelegate handle_status(opts, state), to: OraLixir.Connection
+  defdelegate ping(state), to: OraLixir.Connection
 
-  @impl true
-  def checkout(s) do
-    :io.format("~p~n", [s])
-    {:ok, s}
-#    case query(s, 'SESSION') do
-#      {:ok, _} -> {:ok, s}
-#      {:error, err} ->  {:disconnect, error!(err), s}
-#    end
-  end
-
-  @impl true
-  def ping(s) do
-    {:ok, s}
-  end
 end
