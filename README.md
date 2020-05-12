@@ -1,7 +1,7 @@
 # OraLixir
-[![Build Status](https://travis-ci.org/c-bik/OraLixir.svg?branch=exunits)](https://travis-ci.org/c-bik/OraLixir)
+[![Build Status](https://travis-ci.org/KonnexionsGmbH/OraLixir.svg?branch=exunits)](https://travis-ci.org/KonnexionsGmbH/OraLixir)
 
-An [ecto](https://github.com/elixir-ecto/ecto) adapter for Oracle using [oranif](https://github.com/c-bik/oranif/).
+An [ecto](https://github.com/elixir-ecto/ecto) adapter for Oracle using [oranif](https://github.com/KonnexionsGmbH/oranif/).
 
 ## Installation
 
@@ -11,7 +11,7 @@ by adding `oracle` to your list of dependencies in `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:oralixir, git: "https://github.com/c-bik/OraLixir"}
+    {:oralixir, git: "https://github.com/KonnexionsGmbH/OraLixir"}
   ]
 end
 ```
